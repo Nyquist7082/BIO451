@@ -20,15 +20,34 @@ weigthchange
 dummy_data$weigthchange <- dummy_data$`wetweight_after` - dummy_data$`wetweight_before`
 dummy_data
 
+#############################Controls excluded###################################
+# Grazed not grZsed separately #### 
+data_ex_c <-dummy_data[dummy_data$treatment == 'grazed', ]
+data_c <-dummy_data[dummy_data$treatment == 'not_grazed', ]
+
 #Anova####
 boxplot(weigthchange ~ dummy_data$ecotype)
-test <- anova(lm(weigthchange ~ dummy_data$ecotype, dummy_data))
-summary(test)
-#?anova
+anova(lm(weigthchange ~ data_ex_c$ecotype, data_ex_c))
 
-table <- aov(weigthchange ~ dummy_data$ecotype, dat=dummy_data)
+#?anova
+#?aov #use this one
+
+table <- aov(weigthchange ~ data_ex_c$ecotype, dat=data_ex_c)
 summary(table)
-#summary(anova())
+
+#Boxplots####
+ggboxplot(data_ex_c, x = "ecotype", y = "weigthchange",
+          color = "ecotype", palette =c("#00AFBB", "#E7B800"),
+          add = "jitter", shape = "ecotype")
+
+ggboxplot(data_c, x = "ecotype", y = "weigthchange",
+          color = "ecotype", palette =c("#00AFBB", "#E7B800"),
+          add = "jitter", shape = "ecotype")
+
+ggboxplot(dummy_data, x = "ecotype", y = "weigthchange",
+          color = "treatment",
+          add = "jitter", shape = "treatment")
+
 #PCA####
 names(dummy_data)
 
@@ -103,9 +122,8 @@ ggplot(data = pca_data_scores,
 
 biplot(pca_data)
 
-#############################Controls excluded###################################
-# Exclude the controls####
-data_ex_c <-dummy_data[dummy_data$treatment == 'grazed', ]
+
+
 
 #########Bens code#########
 
