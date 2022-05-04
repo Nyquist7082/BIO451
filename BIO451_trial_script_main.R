@@ -2,5 +2,116 @@
 # Fucus vesiculosus vs Littorina obtusata/fabalis trials
 
 library(googlesheets4)
-data <- read_sheet("https://docs.google.com/spreadsheets/d/1B8JgUlGrqr5kcPiw9d-mjmtuelmGU08LlfG2RV5sLBU/edit#gid=1501238862", range = "DummyData")
-# something
+dummy_data <- read_sheet("https://docs.google.com/spreadsheets/d/1B8JgUlGrqr5kcPiw9d-mjmtuelmGU08LlfG2RV5sLBU/edit#gid=1501238862", range = "DummyData")
+
+
+library(vegan)
+library(ggplot2)
+library(dplyr)
+
+#Read google sheets data into R ####
+
+#Cal####
+weigthchange <- dummy_data$`wetweight_before`- dummy_data$`wetweight_after`
+weigthchange
+dummy_data$weigthchange <- dummy_data$`wetweight_before`- dummy_data$`wetweight_after`
+dummy_data
+
+#Anova####
+boxplot(weigthchange ~ dummy_data$ecotype)
+test <- anova(lm(weigthchange ~ dummy_data$ecotype, dummy_data))
+summary(test)
+#?anova
+#?aov #use this one
+table <- aov(weigthchange ~ dummy_data$ecotype, dat=dummy_data)
+summary(table)
+#summary(anova())
+#PCA####
+names(dummy_data)
+
+#dummy_data %>%
+ # pivot_longer(cols = c("STA", "SAP","TDMC","PHL"),
+  #             names_to = "trait",
+   #            values_to = "value")
+
+#view(dummy_data)          	 
+#dummy_data_long <-
+ # dummy_data %>%
+  #pivot_longer(cols = c("STA", "SAP","TDMC","PHL"),
+   #            names_to = "trait",
+    #           values_to = "value")
+#view(dummy_data_long)
+
+#ggplot(data = dummy_data_long,
+ #      mapping = aes(x = value)) +
+  #geom_histogram() +
+  #facet_wrap(~trait, scales = "free") +
+  #theme_classic()
+
+ggplot(data = dummy_data,
+       mapping = aes(x = SAP, y = TDMC)) +
+  geom_point() +
+  theme_classic()
+
+ggplot(data = dummy_data,
+       mapping = aes(x = SAP, y = TDMC)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_classic()
+
+str(dummy_data)
+
+ggplot(data = dummy_data,
+       mapping = aes(x = ecotype, y = TDMC)) +
+  geom_point() +
+  geom_boxplot(width = 0.1) +
+  theme_classic()
+
+#PCA starts####
+prcomp(~ TDMC + SAP + PHL + STA , data = dummy_data,
+       scale = TRUE)
+
+pca_data <- prcomp(~ TDMC + SAP + PHL + STA , data = dummy_data,
+                   scale = TRUE)
+
+summary(pca_data)
+eigenval_data <- pca_data$sdev^2
+eigenval_data/sum(eigenval_data)
+
+vars_data <- pca_data$sdev^2
+barplot(vars_data/
+          sum(vars_data), xlab='PC', ylab='Percent Variance', names.arg=1:length(vars_data), las=1, col='gray')
+
+pca_data$x[, 1:2]
+pca_data$x[, c(1, 2)] # same thing written in a different way
+
+pca_data_scores <- as.data.frame(pca_data$x[, c(1, 2)])
+
+pca_data_scores <-
+  pca_data_scores %>%
+  mutate(ecotype = dummy_data$ecotype)
+
+pca_data_scores
+
+ggplot(data = pca_data_scores,
+       mapping = aes(x = PC1, y = PC2, colour = ecotype)) +
+  geom_point(size = 2) +
+  theme_classic()
+
+biplot(pca_data)
+
+
+#Bens code####
+#Dataset
+iris
+
+#Manova
+res.man <- manova(cbind(Sepal.Length, Petal.Length, Petal.Width) ~ Species, data = iris)
+summary(res.man)
+
+# PERMANOVA (non parametric)
+iris
+iris.permanova <- adonis2(cbind(iris$Sepal.Length,iris$Sepal.Width) ~ iris$Species,
+                          permutations = 9999,
+                          method="euclidian")
+iris.permanova
