@@ -102,16 +102,13 @@ biplot(pca_data)
 
 
 #Bens code####
-#Dataset
-iris
 
 #Manova
-res.man <- manova(cbind(Sepal.Length, Petal.Length, Petal.Width) ~ Species, data = iris)
+res.man <- manova(cbind(STA, SAP, TDMC, PHL, weigthchange) ~ ecotype, data = dummy_data)
 summary(res.man)
 
 # PERMANOVA (non parametric)
-iris
-iris.permanova <- adonis2(cbind(iris$Sepal.Length,iris$Sepal.Width) ~ iris$Species,
+dummy.permanova <- adonis2(cbind(dummy_data$STA, dummy_data$SAP, dummy_data$TDMC, dummy_data$PHL, dummy_data$weigthchange) ~ dummy_data$ecotype,
                           permutations = 9999,
                           method="euclidian")
-iris.permanova
+dummy.permanova
