@@ -1,20 +1,20 @@
 # BIO451 2022 Group project
 # Fucus vesiculosus vs Littorina obtusata/fabalis trials
 
-library(googlesheets4)
-dummy_data <- read_sheet("https://docs.google.com/spreadsheets/d/1B8JgUlGrqr5kcPiw9d-mjmtuelmGU08LlfG2RV5sLBU/edit#gid=1501238862", range = "DummyData")
-
-
 library(vegan)
 library(ggplot2)
 library(dplyr)
 
+
 #Read google sheets data into R ####
+library(googlesheets4)
+dummy_data <- read_sheet("https://docs.google.com/spreadsheets/d/1B8JgUlGrqr5kcPiw9d-mjmtuelmGU08LlfG2RV5sLBU/edit#gid=1501238862", range = "DummyData")
+
 
 #Cal####
 weigthchange <- dummy_data$`wetweight_before`- dummy_data$`wetweight_after`
 weigthchange
-dummy_data$weigthchange <- dummy_data$`wetweight_before`- dummy_data$`wetweight_after`
+dummy_data$weigthchange <- dummy_data$`wetweight_after` - dummy_data$`wetweight_before`
 dummy_data
 
 #Anova####
@@ -22,7 +22,7 @@ boxplot(weigthchange ~ dummy_data$ecotype)
 test <- anova(lm(weigthchange ~ dummy_data$ecotype, dummy_data))
 summary(test)
 #?anova
-#?aov #use this one
+
 table <- aov(weigthchange ~ dummy_data$ecotype, dat=dummy_data)
 summary(table)
 #summary(anova())
