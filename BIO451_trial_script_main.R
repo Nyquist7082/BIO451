@@ -6,9 +6,12 @@ library(ggplot2)
 library(dplyr)
 
 
+#############################Dummy data#########################################
+
 #Read google sheets data into R ####
 library(googlesheets4)
 dummy_data <- read_sheet("https://docs.google.com/spreadsheets/d/1B8JgUlGrqr5kcPiw9d-mjmtuelmGU08LlfG2RV5sLBU/edit#gid=1501238862", range = "DummyData")
+
 
 
 #Cal####
@@ -100,15 +103,73 @@ ggplot(data = pca_data_scores,
 
 biplot(pca_data)
 
+#############################Controls excluded###################################
+# Exclude the controls####
+data_ex_c <-dummy_data[dummy_data$treatment == 'grazed', ]
 
-#Bens code####
+#########Bens code#########
 
 #Manova
-res.man <- manova(cbind(STA, SAP, TDMC, PHL, weigthchange) ~ ecotype, data = dummy_data)
+res.man <- manova(cbind(STA, SAP, TDMC, PHL, weigthchange) ~ ecotype, data = data_ex_c)
 summary(res.man)
 
 # PERMANOVA (non parametric)
-dummy.permanova <- adonis2(cbind(dummy_data$STA, dummy_data$SAP, dummy_data$TDMC, dummy_data$PHL, dummy_data$weigthchange) ~ dummy_data$ecotype,
+dummy.permanova <- adonis2(cbind(data_ex_c$STA, data_ex_c$SAP, data_ex_c$TDMC, data_ex_c$weigthchange) ~ data_ex_c$ecotype,
                           permutations = 9999,
                           method="euclidian")
 dummy.permanova
+
+
+ggplot(data = data_ex_c,
+       mapping = aes(x = SAP, y = TDMC)) +
+  geom_point() +
+  theme_classic()
+
+ggplot(data = data_ex_c,
+       mapping = aes(x = SAP, y = TDMC)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_classic()
+
+str(data_ex_c)
+
+ggplot(data = data_ex_c,
+       mapping = aes(x = ecotype, y = TDMC)) +
+  geom_point() +
+  geom_boxplot(width = 0.1) +
+  theme_classic()
+
+#PCA starts####
+prcomp(~ TDMC + SAP + PHL + STA , data = data_ex_c,
+       scale = TRUE)
+
+pca_data <- prcomp(~ TDMC + SAP + PHL + STA , data = data_ex_c,
+                   scale = TRUE)
+
+summary(pca_data)
+eigenval_data <- pca_data$sdev^2
+eigenval_data/sum(eigenval_data)
+
+vars_data <- pca_data$sdev^2
+barplot(vars_data/
+          sum(vars_data), xlab='PC', ylab='Percent Variance', names.arg=1:length(vars_data), las=1, col='gray')
+
+pca_data$x[, 1:2]
+pca_data$x[, c(1, 2)] # same thing written in a different way
+
+pca_data_scores <- as.data.frame(pca_data$x[, c(1, 2)])
+
+pca_data_scores <-
+  pca_data_scores %>%
+  mutate(ecotype = data_ex_c$ecotype)
+
+pca_data_scores
+
+ggplot(data = pca_data_scores,
+       mapping = aes(x = PC1, y = PC2, colour = ecotype)) +
+  geom_point(size = 2) +
+  theme_classic()
+
+biplot(pca_data)
+
+#################################################################################
