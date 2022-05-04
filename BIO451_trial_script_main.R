@@ -4,6 +4,7 @@
 library(vegan)
 library(ggplot2)
 library(dplyr)
+library(ggpubr)
 
 
 #############################Dummy data#########################################
@@ -11,7 +12,6 @@ library(dplyr)
 #Read google sheets data into R ####
 library(googlesheets4)
 dummy_data <- read_sheet("https://docs.google.com/spreadsheets/d/1B8JgUlGrqr5kcPiw9d-mjmtuelmGU08LlfG2RV5sLBU/edit#gid=1501238862", range = "DummyData")
-
 
 
 #Cal####
