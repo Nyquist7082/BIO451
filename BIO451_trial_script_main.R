@@ -218,5 +218,9 @@ ggboxplot(trial1_data, x = "ecotype", y = "weigthchange",
           add = "jitter", shape = "treatment")
 
 
-#Anova####
+#Anova - ecotype####
 anova(lm(weigthchange ~ trial1_data_ex_c$ecotype, trial1_data_ex_c))
+
+#Anova - grazing####
+table <- aov(weigthchange~trial1_data$treatment, data = trial1_data)
+summary(table)
