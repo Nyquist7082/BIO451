@@ -13,7 +13,6 @@ library(ggpubr)
 library(googlesheets4)
 dummy_data <- read_sheet("https://docs.google.com/spreadsheets/d/1B8JgUlGrqr5kcPiw9d-mjmtuelmGU08LlfG2RV5sLBU/edit#gid=1501238862", range = "DummyData")
 
-
 #Cal####
 weigthchange <- dummy_data$`wetweight_before`- dummy_data$`wetweight_after`
 weigthchange
@@ -190,5 +189,34 @@ ggplot(data = pca_data_scores,
 
 biplot(pca_data)
 
-#hi_nils
-#################################################################################
+#################################Trial 1#########################################
+
+trial1_data <- read_sheet("https://docs.google.com/spreadsheets/d/1B8JgUlGrqr5kcPiw9d-mjmtuelmGU08LlfG2RV5sLBU/edit#gid=1501238862", range = "trial1")
+
+# Grazed not grZsed separately #### 
+trial1_data$weigthchange <- trial1_data$`ww_after` - trial1_data$`ww_before`
+trial1_data
+
+trial1_data_ex_c <-trial1_data[trial1_data$treatment == 'grazed', ]
+trial1_data_c <-trial1_data[trial1_data$treatment == 'not_grazed', ]
+
+trial1_weigthchange <- trial1_data$`ww_before`- trial1_data$`ww_after`
+trial1_weigthchange
+
+
+#Boxplots####
+ggboxplot(trial1_data_ex_c, x = "ecotype", y = "weigthchange",
+          color = "ecotype", palette =c("#00AFBB", "#E7B800"),
+          add = "jitter", shape = "ecotype")
+
+ggboxplot(trial1_data_c, x = "ecotype", y = "weigthchange",
+          color = "ecotype", palette =c("#00AFBB", "#E7B800"),
+          add = "jitter", shape = "ecotype")
+
+ggboxplot(trial1_data, x = "ecotype", y = "weigthchange",
+          color = "treatment",
+          add = "jitter", shape = "treatment")
+
+
+#Anova####
+anova(lm(weigthchange ~ trial1_data_ex_c$ecotype, trial1_data_ex_c))
