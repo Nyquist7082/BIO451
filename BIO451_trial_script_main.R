@@ -5,6 +5,8 @@ library(vegan)
 library(ggplot2)
 library(dplyr)
 library(ggpubr)
+library(car)
+library(corrplot)
 
 
 #############################Dummy data#########################################
@@ -19,7 +21,8 @@ weigthchange
 dummy_data$weigthchange <- dummy_data$`wetweight_after` - dummy_data$`wetweight_before`
 dummy_data
 
-#############################Controls excluded###################################
+#Controls excluded####
+
 # Grazed not grZsed separately #### 
 data_ex_c <-dummy_data[dummy_data$treatment == 'grazed', ]
 data_c <-dummy_data[dummy_data$treatment == 'not_grazed', ]
@@ -189,7 +192,7 @@ ggplot(data = pca_data_scores,
 
 biplot(pca_data)
 
-#################################Trial 1#########################################
+#################################Trial 1########################################
 
 trial1_data <- read_sheet("https://docs.google.com/spreadsheets/d/1B8JgUlGrqr5kcPiw9d-mjmtuelmGU08LlfG2RV5sLBU/edit#gid=1501238862", range = "trial1")
 
