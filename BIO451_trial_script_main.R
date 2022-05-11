@@ -27,6 +27,12 @@ trial1.permanova <- adonis2(cbind(trial1_data$STA, trial1_data$SAP, trial1_data$
 trial1.permanova
 
 
+###################### Calculating dry weight before using regression ##########
+
+#Regression with values after####
+m1 <- lm(trial1_data$dryweight ~ trial1_data$ww_after)
+
+
 ########################### Grazed not grazed separate #########################
 
 #Correction for growth####
@@ -41,7 +47,7 @@ corr.not_grazed <- corr.select %>% select(sample_ID, not_grazed)
   na.omit(corr.not_grazed) -> na.not_grazed
   
 join.corr <- left_join(na.grazed, na.not_grazed)
-  join.corr$true_dif <- join.corr()
+  join.corr$true_dif <- join.corr$not_grazed - (join.corr$grazed)
   
 #data####
 trial1_data_ex_c <-trial1_data[trial1_data$treatment == 'grazed', ]   #Gazed, without baseline
