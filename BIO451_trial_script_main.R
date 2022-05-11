@@ -53,7 +53,7 @@ join.corr <- left_join(na.grazed, na.not_grazed)
 trial1_data_ex_c <-trial1_data[trial1_data$treatment == 'grazed', ]   #Gazed, without baseline
 trial1_data_c <-trial1_data[trial1_data$treatment == 'not_grazed', ]  #Baseline
 # wetwiht change in %
-trial1_data$weigthchange <- (trial1_data$`ww_before`- trial1_data$`ww_after`)/(trial1_data$`ww_before`)*100
+trial1_data$ww_perc <- (trial1_data$`ww_before`- trial1_data$`ww_after`)/(trial1_data$`ww_before`)*100
 
 #trial1_weigthchange <- trial1_data$`ww_before`- trial1_data$`ww_after`
 #trial1_weigthchange
