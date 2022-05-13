@@ -19,6 +19,14 @@ trial1_data <- read_sheet("https://docs.google.com/spreadsheets/d/1B8JgUlGrqr5kc
 # wetwiht change in %
 trial1_data$ww_perc <- (trial1_data$`ww_after`- trial1_data$`ww_before`)/(trial1_data$`ww_before`)*100
 
+#Growth corrected ####
+correct_growth <- trial1_data %>% select(sample_ID , ww_prec, treatment)
+
+correct_growth <- correct_growth %>% pivot_wider(names_from = "treatment", values_from = "ww_prec")
+correct_growth$growth_corr <- correct_growth$not_grazed- correct_growth$grazed
+trial1_data <- left_join(trial1_data, correct_growth, by = "sample_ID")
+trial1_data$growth_corr[trial1_data$treatment =="not_grazed"]=NA
+
 # grazed and baseline separation ####  
 
 trial1_data_ex_c <-trial1_data[trial1_data$treatment == 'grazed', ]   #Gazed, without baseline
