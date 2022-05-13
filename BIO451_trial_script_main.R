@@ -79,6 +79,8 @@ anova(lm(ww_dif ~ trial1_data_ex_c$ecotype, trial1_data_ex_c))
 table <- aov(ww_dif~trial1_data$treatment, data = trial1_data)
 summary(table)
 
+# traits trial1#### 
+
 #################### t-test for each trait #####################################
 
 #ww_dif grazed####
