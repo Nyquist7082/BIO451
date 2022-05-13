@@ -30,7 +30,9 @@ trial1.permanova
 ###################### Calculating dry weight before using regression ##########
 
 #Regression with values after####
-m1 <- lm(trial1_data$dryweight ~ trial1_data$ww_after)
+m1 <- lm(trial1_data$dryweight ~ trial1_data$ww_after, data = trial1_data)
+  predict(m1, ww_before) -> dryweight_before
+  
 
 
 ########################### Grazed not grazed separate #########################
@@ -40,7 +42,7 @@ corr.ww <- trial1_data %>%
   pivot_wider(names_from = "treatment", values_from = "ww_dif")
 
 corr.select <- corr.ww %>% select(sample_ID, grazed, not_grazed)
-corr.grazed <- corr.select %>% select(sample_ID, grazed)
+  corr.grazed <- corr.select %>% select(sample_ID, grazed)
   na.omit(corr.grazed) -> na.grazed
 
 corr.not_grazed <- corr.select %>% select(sample_ID, not_grazed)
@@ -48,12 +50,17 @@ corr.not_grazed <- corr.select %>% select(sample_ID, not_grazed)
   
 join.corr <- left_join(na.grazed, na.not_grazed)
   join.corr$true_dif <- join.corr$not_grazed - (join.corr$grazed)
+
   
-#data and wetweight change####
+# wetweight change####  
+# wetwiht change in %
+  trial1_data$ww_perc <- (trial1_data$`ww_after`- trial1_data$`ww_before`)/(trial1_data$`ww_after`)*100
+
+# grazed and baseline separation ####  
+
 trial1_data_ex_c <-trial1_data[trial1_data$treatment == 'grazed', ]   #Gazed, without baseline
 trial1_data_c <-trial1_data[trial1_data$treatment == 'not_grazed', ]  #Baseline
-# wetwiht change in %
-trial1_data$ww_perc <- (trial1_data$`ww_before`- trial1_data$`ww_after`)/(trial1_data$`ww_before`)*100
+
 
 #trial1_weigthchange <- trial1_data$`ww_before`- trial1_data$`ww_after`
 #trial1_weigthchange
@@ -80,30 +87,43 @@ anova(lm(ww_dif ~ trial1_data_ex_c$ecotype, trial1_data_ex_c))
 table <- aov(ww_dif~trial1_data$treatment, data = trial1_data)
 summary(table)
 
-#################### t-test for each trait (grazed) ############################
+#################### t-test for each trait #####################################
 
-#ww_dif####
+#ww_dif grazed####
 ttest.STA <- trial1_data_ex_c %>% 
   t_test(ww_dif ~ ecotype) %>%
   add_significance()
 ttest.STA
 
-#STA####
+#ww_perc treatment####
+ttest.STA <- trial1_data %>% 
+  t_test(ww_perc ~ treatment) %>%
+  add_significance()
+ttest.STA
+
+#STA grazed####
 ttest.STA <- trial1_data_ex_c %>% 
   t_test(STA ~ ecotype) %>%
   add_significance()
 ttest.STA
 
-#SAP####
+#SAP grazed####
 ttest.SAP <- trial1_data_ex_c %>% 
   t_test(SAP ~ ecotype) %>%
   add_significance()
 ttest.SAP
 
-#TDMC####
+#TDMC grazed####
 ttest.TDMC <- trial1_data_ex_c %>% 
   t_test(TDMC ~ ecotype) %>%
   add_significance()
 ttest.TDMC
 
 
+
+################## Linear plots for traits #####################################
+
+# Plot STA ####
+ggplot(trial1_data, aes(STA, ww_perc)) +
+  geom_point() +
+  stat_smooth(method = lm)
