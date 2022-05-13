@@ -17,7 +17,7 @@ trial1_data <- read_sheet("https://docs.google.com/spreadsheets/d/1B8JgUlGrqr5kc
 
 # wetweight change####  
 # wetwiht change in %
-trial1_data$ww_perc <- (trial1_data$`ww_after`- trial1_data$`ww_before`)/(trial1_data$`ww_after`)*100
+trial1_data$ww_perc <- (trial1_data$`ww_after`- trial1_data$`ww_before`)/(trial1_data$`ww_before`)*100
 
 # grazed and baseline separation ####  
 
@@ -31,8 +31,9 @@ trial1_data_c <-trial1_data[trial1_data$treatment == 'not_grazed', ]  #Baseline
 
 # PERMANOVA (non parametric)####
 
-trial1.permanova <- adonis2(cbind(scale(trial1_data$STA), scale(trial1_data$SAP), scale(trial1_data$TDMC)
-                                  ) ~ trial1_data$ww_perc,
+trial1.permanova <- adonis2(cbind(scale(trial1_data_ex_c$STA), scale(trial1_data_ex_c$SAP), 
+                                  scale(trial1_data_ex_c$TDMC)
+                                  ) ~ trial1_data_ex_c$ww_perc,
                            permutations = 9999,
                            method="euclidian")
 trial1.permanova
@@ -104,9 +105,20 @@ ttest.TDMC
 
 
 
-################## Linear plots for traits #####################################
+################## Linear plots for traits ~ ww_perc ###########################
 
 # Plot STA ####
 ggplot(trial1_data, aes(STA, ww_perc)) +
   geom_point() +
   stat_smooth(method = lm)
+
+# Plot SAP ####
+ggplot(trial1_data, aes(SAP, ww_perc)) +
+  geom_point() +
+  stat_smooth(method = lm)
+
+# Plot TDMC ####
+ggplot(trial1_data, aes(TDMC, ww_perc)) +
+  geom_point() +
+  stat_smooth(method = lm)
+
