@@ -26,11 +26,12 @@ trial1_data_c <-trial1_data[trial1_data$treatment == 'not_grazed', ]  #Baseline
 
 
 # Manova####
-res.man <- manova(cbind(STA, SAP, TDMC, PHL, ww_dif) ~ ecotype, data = trial1_data)
-summary(res.man)
+#res.man <- manova(cbind(STA, SAP, TDMC, PHL, ww_dif) ~ ecotype, data = trial1_data)
+#summary(res.man)
 
 # PERMANOVA (non parametric)####
-trial1.permanova <- adonis2(cbind(trial1_data$STA, trial1_data$SAP, trial1_data$TDMC
+
+trial1.permanova <- adonis2(cbind(scale(trial1_data$STA), scale(trial1_data$SAP), scale(trial1_data$TDMC)
                                   ) ~ trial1_data$ww_perc,
                            permutations = 9999,
                            method="euclidian")
