@@ -15,51 +15,33 @@ library(googlesheets4) #Read google sheets data into R
 
 trial1_data <- read_sheet("https://docs.google.com/spreadsheets/d/1B8JgUlGrqr5kcPiw9d-mjmtuelmGU08LlfG2RV5sLBU/edit#gid=1501238862", range = "trial1")
 
-# Manova####
-res.man <- manova(cbind(STA, SAP, TDMC, PHL, ww_dif) ~ ecotype, data = trial1_data)
-summary(res.man)
-
-# PERMANOVA (non parametric)####
-trial1.permanova <- adonis2(cbind(trial1_data$STA, trial1_data$SAP, trial1_data$TDMC,
-                                  trial1_data$ww_dif) ~ trial1_data$ecotype,
-                           permutations = 9999,
-                           method="euclidian")
-trial1.permanova
-
-
-###################### Calculating dry weight before using regression ##########
-
-#Regression with values after####
-m1 <- lm(trial1_data$dryweight ~ trial1_data$ww_after, data = trial1_data)
-  predict(m1, ww_before) -> dryweight_before
-  
-
-
-########################### Grazed not grazed separate #########################
-
-#Correction for growth####
-corr.ww <- trial1_data %>% 
-  pivot_wider(names_from = "treatment", values_from = "ww_dif")
-
-corr.select <- corr.ww %>% select(sample_ID, grazed, not_grazed)
-  corr.grazed <- corr.select %>% select(sample_ID, grazed)
-  na.omit(corr.grazed) -> na.grazed
-
-corr.not_grazed <- corr.select %>% select(sample_ID, not_grazed)
-  na.omit(corr.not_grazed) -> na.not_grazed
-  
-join.corr <- left_join(na.grazed, na.not_grazed)
-  join.corr$true_dif <- join.corr$not_grazed - (join.corr$grazed)
-
-  
 # wetweight change####  
 # wetwiht change in %
-  trial1_data$ww_perc <- (trial1_data$`ww_after`- trial1_data$`ww_before`)/(trial1_data$`ww_after`)*100
+trial1_data$ww_perc <- (trial1_data$`ww_after`- trial1_data$`ww_before`)/(trial1_data$`ww_after`)*100
 
 # grazed and baseline separation ####  
 
 trial1_data_ex_c <-trial1_data[trial1_data$treatment == 'grazed', ]   #Gazed, without baseline
 trial1_data_c <-trial1_data[trial1_data$treatment == 'not_grazed', ]  #Baseline
+
+
+# Manova####
+res.man <- manova(cbind(STA, SAP, TDMC, PHL, ww_dif) ~ ecotype, data = trial1_data)
+summary(res.man)
+
+# PERMANOVA (non parametric)####
+trial1.permanova <- adonis2(cbind(trial1_data$STA, trial1_data$SAP, trial1_data$TDMC
+                                  ) ~ trial1_data$ww_perc,
+                           permutations = 9999,
+                           method="euclidian")
+trial1.permanova
+
+
+# Calculating dry weight before using regression ####
+
+#Regression with values after####
+m1 <- lm(trial1_data$dryweight ~ trial1_data$ww_after, data = trial1_data)
+  predict(m1, ww_before) -> dryweight_before
 
 
 #trial1_weigthchange <- trial1_data$`ww_before`- trial1_data$`ww_after`
