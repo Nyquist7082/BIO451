@@ -32,7 +32,13 @@ preference_data_wide <- dcast(preference_data[c("ecotype", "jar", "ww_perc")],
 
 t.test(preference_data_wide$exposed, preference_data_wide$sheltered, paired = T)
 
-# Connected boxplot ####
+#Boxplot####
+ggboxplot(preference_data, x = "ecotype", y = "ww_perc",
+          color = "ecotype", palette =c("#00AFBB", "#E7B800"),
+          add = "jitter", shape = "ecotype")
+
+
+# Connected boxplots ####
 
 bxp <- ggpaired(preference_data, x = "ecotype", y = "ww_perc",
                 order = c("exposed", "sheltered"))
