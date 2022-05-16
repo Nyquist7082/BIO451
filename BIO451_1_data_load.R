@@ -35,3 +35,6 @@ preference_data <- read_sheet("https://docs.google.com/spreadsheets/d/1B8JgUlGrq
 # Add column: wetweight change in % ####
 preference_data$ww_perc <- (preference_data$`ww_after`- preference_data$`ww_before`)/(preference_data$`ww_before`)*100
 
+
+###################### Combined data trial 1 and 2 #############################
+
