@@ -62,4 +62,3 @@ summary(anova_growth)
 
 
 
-
