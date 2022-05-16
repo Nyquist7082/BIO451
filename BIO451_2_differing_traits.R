@@ -89,7 +89,7 @@ trial1_data %>%
 
 
 #SAP####
-p_sap <- ggboxplot(trial1_data, x = "ecotype", y = "TDMC",
+p_sap <- ggboxplot(trial1_data, x = "ecotype", y = "SAP",
                     color = "ecotype",
                     add = "jitter", shape = "ecotype", width= 0.15)+
   theme_classic()+
@@ -115,8 +115,106 @@ adonis2(cbind(trial1_data$STA, trial1_data$SAP, trial1_data$TDMC, trial1_data$PH
 
 
 #Testing if there is significant difference in traits depending on % of wet weight change
-adonis2(cbind(trial1_data$STA, trial1_data$SAP, trial1_data$TDMC, trial1_data$PHL) ~ trial1_data$ww_prec,
+adonis2(cbind(trial1_data$STA, trial1_data$SAP, trial1_data$TDMC, trial1_data$PHL) ~ trial1_data$ww_perc,
                             permutations = 9999,
                             method="euclidian")
 
+#Trial 2####
+#PCA####
+prcomp(~ TDMC + SAP  + STA , data = preference_data,
+       scale = TRUE)
 
+pca_data_pref <- prcomp(~ TDMC + SAP  + STA ,  data = preference_data,
+                   scale = TRUE)
+
+summary(pca_data_pref)
+eigenval_data_pref <- pca_data_pref$sdev^2
+eigenval_data_pref/sum(eigenval_data)
+
+vars_data_pref <- pca_data_pref$sdev^2
+barplot(vars_data_pref/
+          sum(vars_data_pref), xlab='PC', ylab='Percent Variance', names.arg=1:length(vars_data_pref), las=1, col='gray') 
+
+pca_data_pref$x[, 1:2]
+pca_data_pref$x[, c(1, 2)] # same thing written in a different way
+
+pca_data_scores_pref<- as.data.frame(pca_data_pref$x[, c(1, 2)])
+
+pca_data_scores_pref <- 
+  pca_data_scores_pref %>%
+  mutate(ecotype = preference_data$ecotype)
+
+pca_data_scores
+
+ggplot(data = pca_data_scores_pref,
+       mapping = aes(x = PC1, y = PC2, colour = ecotype)) +
+  geom_point(size = 2) +
+  theme_classic()
+
+p_pca_pref <-autoplot(pca_data_pref, data = pca_data_scores_pref, colour = 'ecotype',
+                 loadings = TRUE, loadings.colour = 'blue',
+                 loadings.label = TRUE, loadings.label.size = 3)
+p_pca_pref+ theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+             panel.background = element_blank(), axis.line = element_line(colour = "black",),legend.title = element_blank())
+
+#Boxplot and statistical test for traits####
+
+#TDMC####
+
+p_tdmc_pref <- ggboxplot(preference_data, x = "ecotype", y = "TDMC",
+                    color = "ecotype",
+                    add = "jitter", shape = "ecotype", width= 0.15)+
+  theme_classic()+
+  xlab("Environment")
+p_tdmc_pref + theme(legend.title = element_blank())
+
+preference_data %>% 
+  t_test( TDMC~ ecotype ) %>%
+  add_significance()
+
+
+#STA####
+p_sta_pref<- ggboxplot(preference_data, x = "ecotype", y = "STA",
+                   color = "ecotype",
+                   add = "jitter", shape = "ecotype", width= 0.15)+
+  theme_classic()+
+  xlab("Environment")
+p_sta_pref + theme(legend.title = element_blank())
+
+
+
+preference_data %>% 
+  t_test(STA~ ecotype) %>%
+  add_significance()
+
+
+
+
+#SAP####
+p_sap_pref<- ggboxplot(preference_data, x = "ecotype", y = "SAP",
+                   color = "ecotype",
+                   add = "jitter", shape = "ecotype", width= 0.15)+
+  theme_classic()+
+  xlab("Environment")
+p_sap_pref + theme(legend.title = element_blank())
+
+
+preference_data %>% 
+  t_test(SAP~ ecotype) %>%
+  add_significance()
+
+
+preference_data %>% 
+  wilcox_test(SAP~ ecotype) %>%
+  add_significance()
+
+# PERMANOVA (non parametric)####
+# Testing if there is significant difference in traits depending on ecotype (sheltered vs exposed)
+adonis2(cbind(preference_data$STA, preference_data$SAP, preference_data$TDMC) ~ preference_data$ecotype,
+        permutations = 9999,
+        method="euclidian")
+
+#Testing if there is significant difference in traits depending on % of wet weight change
+adonis2(cbind(preference_data$STA, preference_data$SAP, preference_data$TDMC) ~ preference_data$ww_perc,
+        permutations = 9999,
+        method="euclidian")
