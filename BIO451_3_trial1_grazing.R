@@ -62,6 +62,21 @@ summary(anova_growth)
 
 
 ###################### PHL #############################
+p_PHL <- ggboxplot(trial1_data, x = "ecotype", y = "PHL",
+          color = "treatment",
+          add = "jitter", shape = "treatment",width= 0.15,
+          title = "Phlorotannins levels grazed vs control",
+          xlab = "Environment",
+          ylab = "Phlorotannins")+
+  theme_classic()
+  
+p_PHL+ theme(legend.title = element_blank())
+
+trial1_data %>% 
+  t_test(PHL~ treatment) %>%
+  add_significance()
+
+
 #PHL Before grazing,baseline ####
 ggplot(data = trial1_data_c, 
        mapping = aes(x = ecotype, y = PHL)) +
@@ -72,9 +87,11 @@ ggplot(data = trial1_data_c,
 
 p_PHL_before <- ggboxplot(trial1_data_c, x = "ecotype", y = "PHL",
                        color = "ecotype",
-                       add = "jitter", shape = "ecotype", width= 0.15)+
-  theme_classic()+
-  xlab("Environment")
+                       add = "jitter", shape = "ecotype", width= 0.15,
+                       title = "Initial Phlorotannins levels",
+                       xlab = "Environment",
+                       ylab = "Phlorotannins")+
+  theme_classic()
 
 p_PHL_before + theme(legend.title = element_blank())
 
@@ -83,13 +100,16 @@ trial1_data_c %>%
   t_test(PHL~ ecotype) %>%
   add_significance()
 
-#PHL After grazing ,induced maximum ####
+#PHL After grazing ,grazed induced maximum ####
 
 p_PHL_after <- ggboxplot(trial1_data_ex_c, x = "ecotype", y = "PHL",
                           color = "ecotype",
-                          add = "jitter", shape = "ecotype", width= 0.15)+
-  theme_classic()+
-  xlab("Environment")
+                          add = "jitter", shape = "ecotype", width= 0.15,
+                         title = "Phlorotannins levels after grazing",
+                         xlab = "Environment",
+                         ylab = "Phlorotannins")+
+  theme_classic()
+  
 
 p_PHL_after + theme(legend.title = element_blank())
 
@@ -98,13 +118,17 @@ trial1_data_ex_c %>%
   t_test(PHL~ ecotype) %>%
   add_significance()
 
-#Difference in PHL star and induction####
+#Difference in PHL start and induction####
 
 p_PHL_diff <- ggboxplot(joined, x = "ecotype", y = "PHLdiff",
                          color = "ecotype",
-                         add = "jitter", shape = "ecotype", width= 0.15)+
-  theme_classic()+
-  xlab("Environment")
+                         add = "jitter", shape = "ecotype", 
+                        width= 0.15, title = "Induction of Phlorotannins",
+                        ylab = "Phlorotannins",
+                        xlab = "Environment")+
+  theme_classic()
+  
+  
 
 p_PHL_diff + theme(legend.title = element_blank())
 
