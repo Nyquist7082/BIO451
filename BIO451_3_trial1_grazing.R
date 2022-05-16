@@ -61,4 +61,57 @@ anova_growth <- aov(growth_corr ~ trial1_data_ex_c$ecotype, dat=trial1_data_ex_c
 summary(anova_growth)
 
 
+###################### PHL #############################
+#PHL Before grazing,baseline ####
+ggplot(data = trial1_data_c, 
+       mapping = aes(x = ecotype, y = PHL)) +
+  geom_point() +
+  geom_boxplot(width = 0.1) +
+  labs(title = "PHL Before grazing(controls)")+
+  theme_classic()
 
+p_PHL_before <- ggboxplot(trial1_data_c, x = "ecotype", y = "PHL",
+                       color = "ecotype",
+                       add = "jitter", shape = "ecotype", width= 0.15)+
+  theme_classic()+
+  xlab("Environment")
+
+p_PHL_before + theme(legend.title = element_blank())
+
+
+trial1_data_c %>% 
+  t_test(PHL~ ecotype) %>%
+  add_significance()
+
+#PHL After grazing ,induced maximum ####
+
+p_PHL_after <- ggboxplot(trial1_data_ex_c, x = "ecotype", y = "PHL",
+                          color = "ecotype",
+                          add = "jitter", shape = "ecotype", width= 0.15)+
+  theme_classic()+
+  xlab("Environment")
+
+p_PHL_after + theme(legend.title = element_blank())
+
+
+trial1_data_ex_c %>% 
+  t_test(PHL~ ecotype) %>%
+  add_significance()
+
+#Difference in PHL star and induction####
+
+p_PHL_diff <- ggboxplot(joined, x = "ecotype", y = "PHLdiff",
+                         color = "ecotype",
+                         add = "jitter", shape = "ecotype", width= 0.15)+
+  theme_classic()+
+  xlab("Environment")
+
+p_PHL_diff + theme(legend.title = element_blank())
+
+joined%>% 
+  t_test(PHLdiff~ecotype) %>% 
+  add_significance()
+
+joined%>% 
+  wilcox_test(PHLdiff~ecotype) %>% 
+  add_significance()
