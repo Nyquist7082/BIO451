@@ -12,7 +12,7 @@ library(tidyverse)     #Data manipulation
 library(rstatix)       #Pipe-friendly R functions for easy statistical analyses
 library(googlesheets4) #Read google sheets data into R 
 
-# Different in traits ####
+# Difference in traits ####
 
 #Trial 1####
 #PCA####
@@ -47,20 +47,18 @@ ggplot(data = pca_data_scores,
   theme_classic()
 
 
-p1 <-autoplot(pca_data, data = pca_data_scores, colour = 'ecotype',
-              loadings = TRUE, loadings.colour = 'blue',
-              loadings.label = TRUE, loadings.label.size = 3)
-p1+ theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-          panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
 
+#Boxplot and statistical test for traits####
 
 #TDMC####
-ggplot(data = trial1_data, 
-       mapping = aes(x = ecotype, y = TDMC)) +
-  geom_point() +
-  geom_boxplot(width = 0.1) +
-  theme_classic()
+
+p_tdmc <- ggboxplot(trial1_data, x = "ecotype", y = "TDMC",
+          color = "ecotype",
+          add = "jitter", shape = "ecotype", width= 0.15, panel.labs = "enviro")+
+  theme_classic()+
+  xlab("Environment")
+p_tdmc + theme(legend.title = element_blank())
 
 trial1_data %>% 
   t_test( TDMC~ ecotype ) %>%
@@ -68,11 +66,14 @@ trial1_data %>%
 
 
 #STA####
-ggplot(data = trial1_data, 
-       mapping = aes(x = ecotype, y = STA)) +
-  geom_point() +
-  geom_boxplot(width = 0.1) +
-  theme_classic()
+p_sta <- ggboxplot(trial1_data, x = "ecotype", y = "STA",
+                    color = "ecotype",
+                    add = "jitter", shape = "ecotype", width= 0.15, panel.labs = "enviro")+
+  theme_classic()+
+  xlab("Environment")
+p_sta + theme(legend.title = element_blank())
+
+tes+ theme(legend.title = element_blank())
 
 trial1_data %>% 
   t_test(STA~ ecotype) %>%
@@ -85,11 +86,13 @@ trial1_data %>%
 
 
 #SAP####
-ggplot(data = trial1_data, 
-       mapping = aes(x = ecotype, y = SAP)) +
-  geom_point() +
-  geom_boxplot(width = 0.1) +
-  theme_classic()
+p_sap <- ggboxplot(trial1_data, x = "ecotype", y = "TDMC",
+                    color = "ecotype",
+                    add = "jitter", shape = "ecotype", width= 0.15, panel.labs = "enviro")+
+  theme_classic()+
+  xlab("Environment")
+p_sap + theme(legend.title = element_blank())
+  
 
 trial1_data %>% 
   t_test(SAP~ ecotype) %>%
@@ -99,5 +102,18 @@ trial1_data %>%
 trial1_data %>% 
   wilcox_test(SAP~ ecotype) %>%
   add_significance()
+
+# PERMANOVA (non parametric)####
+# Testing if there is significant difference in traits depending on ecotype (sheltered vs exposed)
+adonis2(cbind(trial1_data$STA, trial1_data$SAP, trial1_data$TDMC, trial1_data$PHL) ~ trial1_data$ecotype,
+                           permutations = 9999,
+                           method="euclidian")
+
+
+
+#Testing if there is significant difference in traits depending on % of wet weight change
+adonis2(cbind(trial1_data$STA, trial1_data$SAP, trial1_data$TDMC, trial1_data$PHL) ~ trial1_data$ww_prec,
+                            permutations = 9999,
+                            method="euclidian")
 
 
