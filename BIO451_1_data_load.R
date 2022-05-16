@@ -21,7 +21,7 @@ trial1_data_c <-trial1_data[trial1_data$treatment == 'not_grazed', ]  #Baseline
 
 # Growth corrected ####
 correct_growth <- trial1_data %>% select(sample_ID , ww_perc, treatment)
-correct_growth <- correct_growth %>% pivot_wider(names_from = "treatment", values_from = "ww_prec")
+correct_growth <- correct_growth %>% pivot_wider(names_from = "treatment", values_from = "ww_perc")
 correct_growth$growth_corr <- correct_growth$not_grazed- correct_growth$grazed
 trial1_data <- left_join(trial1_data, correct_growth, by = "sample_ID")
 trial1_data$growth_corr[trial1_data$treatment =="not_grazed"]=NA
