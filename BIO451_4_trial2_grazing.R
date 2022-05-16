@@ -68,23 +68,30 @@ method="euclidian")
 
 preference.permanova
 
+#ww_perc ttest####
+
+ttest.ww_perc <- preference_data %>% 
+  t_test(ww_perc ~ ecotype, paired = TRUE) %>%
+  add_significance()
+ttest.ww_perc
+
 #STA ttest####
 
 ttest.STA <- preference_data %>% 
-  t_test(STA ~ ecotype) %>%
+  t_test(STA ~ ecotype, paired = TRUE) %>%
   add_significance()
 ttest.STA
 
 #SAP ttest####
 
 ttest.SAP <- preference_data %>% 
-  t_test(SAP ~ ecotype) %>%
+  t_test(SAP ~ ecotype, paired = TRUE) %>%
   add_significance()
 ttest.SAP
 
 #TDMC ttest####
 
 ttest.TDMC <- preference_data %>% 
-  t_test(TDMC ~ ecotype) %>%
+  t_test(TDMC ~ ecotype, paired = TRUE) %>%
   add_significance()
 ttest.TDMC
