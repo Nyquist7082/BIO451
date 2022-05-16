@@ -26,6 +26,21 @@ trial1_data$growth_corr[trial1_data$treatment =="not_grazed"]=NA
 trial1_data_ex_c <-trial1_data[trial1_data$treatment == 'grazed', ]   #Gazed, without baseline
 trial1_data_c <-trial1_data[trial1_data$treatment == 'not_grazed', ]  #Baseline
 
+#Calculations of dif. in PHL 
+trial1_data_wider <- trial1_data %>% pivot_wider(names_from = "treatment", values_from = "PHL")
+
+
+select_1 <- trial1_data_wider %>% select(grazed,ecotype, sample_ID)
+select_1_removeNA <- na.omit(try1)
+select_2 <- trial1_data_wider %>% select(not_grazed,ecotype,sample_ID)
+select_2_removeNA <- na.omit(try2)
+joined <- full_join(select_1_removeNA, select_2_removeNA)
+joined$PHLdiff <- joined$grazed-joined$not_grazed
+#Just run it once!
+trial1_data <- left_join(trial1_data, joined, by="sample_ID")
+
+trial1_data$PHLdiff[trial1_data$treatment =="not_grazed"]=NA
+
 
 ###################### Trial 2: preference #####################################
 
@@ -37,4 +52,7 @@ preference_data$ww_perc <- (preference_data$`ww_after`- preference_data$`ww_befo
 
 
 ###################### Combined data trial 1 and 2 #############################
+combined_data <- read_sheet("https://docs.google.com/spreadsheets/d/1B8JgUlGrqr5kcPiw9d-mjmtuelmGU08LlfG2RV5sLBU/edit#gid=1501238862", range = "combined")
 
+# Add column: wetweight change in % ####
+combined_data$ww_perc <- (combined_data$`ww_after`- combined_data$`ww_before`)/(combined_data$`ww_before`)*100
