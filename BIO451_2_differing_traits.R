@@ -46,8 +46,11 @@ ggplot(data = pca_data_scores,
   geom_point(size = 2) +
   theme_classic()
 
-
-
+p_pca <-autoplot(pca_data, data = pca_data_scores, colour = 'ecotype',
+              loadings = TRUE, loadings.colour = 'blue',
+              loadings.label = TRUE, loadings.label.size = 3)
+p_pca+ theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+          panel.background = element_blank(), axis.line = element_line(colour = "black",),legend.title = element_blank())
 
 #Boxplot and statistical test for traits####
 
@@ -55,7 +58,7 @@ ggplot(data = pca_data_scores,
 
 p_tdmc <- ggboxplot(trial1_data, x = "ecotype", y = "TDMC",
           color = "ecotype",
-          add = "jitter", shape = "ecotype", width= 0.15, panel.labs = "enviro")+
+          add = "jitter", shape = "ecotype", width= 0.15)+
   theme_classic()+
   xlab("Environment")
 p_tdmc + theme(legend.title = element_blank())
@@ -68,7 +71,7 @@ trial1_data %>%
 #STA####
 p_sta <- ggboxplot(trial1_data, x = "ecotype", y = "STA",
                     color = "ecotype",
-                    add = "jitter", shape = "ecotype", width= 0.15, panel.labs = "enviro")+
+                    add = "jitter", shape = "ecotype", width= 0.15)+
   theme_classic()+
   xlab("Environment")
 p_sta + theme(legend.title = element_blank())
@@ -88,7 +91,7 @@ trial1_data %>%
 #SAP####
 p_sap <- ggboxplot(trial1_data, x = "ecotype", y = "TDMC",
                     color = "ecotype",
-                    add = "jitter", shape = "ecotype", width= 0.15, panel.labs = "enviro")+
+                    add = "jitter", shape = "ecotype", width= 0.15)+
   theme_classic()+
   xlab("Environment")
 p_sap + theme(legend.title = element_blank())
