@@ -55,6 +55,10 @@ ggplot(trial1_data_ex_c, aes(TDMC, growth_corr)) +
   stat_smooth(method = lm)
 
 
+###################### ANOVA, corrected for growth #############################
+
+anova_growth <- aov(growth_corr ~ trial1_data_ex_c$ecotype, dat=trial1_data_ex_c)
+summary(anova_growth)
 
 
 
