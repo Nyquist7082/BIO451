@@ -14,7 +14,7 @@ library(googlesheets4) #Read google sheets data into R
 
 # Different in traits ####
 
-#trial 1####
+#Trial 1####
 #PCA####
 prcomp(~ TDMC + SAP + PHL + STA , data = trial1_data,
        scale = TRUE)
