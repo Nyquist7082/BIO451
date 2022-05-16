@@ -15,10 +15,12 @@ trial1_data <- read_sheet("https://docs.google.com/spreadsheets/d/1B8JgUlGrqr5kc
 # Add column: wetweight change in % ####
 trial1_data$ww_perc <- (trial1_data$`ww_after`- trial1_data$`ww_before`)/(trial1_data$`ww_before`)*100
 
-# grazed and baseline separation ####  
+# Grazed and baseline separation ####  
 trial1_data_ex_c <-trial1_data[trial1_data$treatment == 'grazed', ]   #Gazed, without baseline
 trial1_data_c <-trial1_data[trial1_data$treatment == 'not_grazed', ]  #Baseline
 
+# Growth corrected ####
+correct_growth <- trial1_data %>% select(sample_ID , ww_perc, treatment)
 
 
 
