@@ -52,6 +52,11 @@ preference_data <- read_sheet("https://docs.google.com/spreadsheets/d/1B8JgUlGrq
 # Add column: wetweight change in % ####
 preference_data$ww_perc <- (preference_data$`ww_after`- preference_data$`ww_before`)/(preference_data$`ww_before`)*100
 
+#Wide format for jars####
+
+preference_exposed_jar<- preference_data %>% filter(ecotype=="exposed") %>% select("jar","TDMC","SAP", "STA", "ww_perc"  )
+preference_sheltered_jar <- preference_data %>% filter(ecotype=="sheltered") %>% select("jar","TDMC","SAP", "STA", "ww_perc"  )
+preference_jar <- merge(test, test1, by="jar")
 
 ###################### Combined data trial 1 and 2 #############################
 combined_data <- read_sheet("https://docs.google.com/spreadsheets/d/1B8JgUlGrqr5kcPiw9d-mjmtuelmGU08LlfG2RV5sLBU/edit#gid=1501238862", range = "combined")
