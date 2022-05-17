@@ -128,7 +128,7 @@ ggplot(data = preference_jar,
 ttest.STA <- preference_jar %>% 
   t_test(STA_diff ~ ww_diff, paired = TRUE) %>%
   add_significance()
-
+ttest.STA
 #SAP_diff ttest
 
 ttest.SAP <- preference_jar %>% 
