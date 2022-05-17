@@ -27,3 +27,49 @@ p_comb_expo<- ggboxplot(combined_data_exposed, x = "experiment", y = "ww_perc",
   theme_classic()
 
 p_comb_expo+ theme(legend.title = element_blank())
+
+# grazing  TDMC choice no_choice####
+ggplot(data = combined_data, 
+       aes(x = TDMC,
+           y = ww_perc,
+           colour=experiment)) + 
+  geom_smooth(method=lm) + 
+  geom_point(size = 2) +
+  theme_classic()+
+  ggtitle("TDMC vs Grazing for choice/ no choice")
+
+
+#Area####
+ggplot(data = combined_data, 
+       aes(x = AreaBefore,
+           y = ww_perc,
+           colour=experiment))+ 
+  geom_smooth(method=lm) + 
+  geom_point(size = 2) +
+  theme_classic()+
+  
+
+# grazing  SAP choice no_choice####
+ggplot(data = combined_data, 
+       aes(x = SAP,
+           y = ww_perc,
+           colour=experiment))+ 
+  geom_smooth(method=lm) + 
+  geom_point(size = 2) +
+  theme_classic()+
+  ggtitle("SAP vs Grazing for choice/ no choice")
+
+
+
+# grazing  STA choice no_choice####
+
+ggplot(data = combined_data, 
+       aes(x = STA,
+           y = ww_perc,
+           colour=experiment))+ 
+  geom_smooth(method=lm) + 
+  geom_point(size = 2) +
+  theme_classic()+
+  ggtitle("STA vs Grazing for choice/ no choice")
+  
+
