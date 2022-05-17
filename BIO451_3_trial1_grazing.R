@@ -14,26 +14,28 @@ library(rstatix)       # Pipe-friendly R functions for easy statistical analyses
 
 ############################### Boxplots #######################################
 
-# Weight change in grams ####
-ggboxplot(trial1_data_ex_c, x = "ecotype", xlab = "Environment", y = "ww_dif", 
-          ylab = "Weight change [g]", color = "ecotype", palette =c(
-            "#00AFBB", "#E7B800"), add = "jitter", shape = "ecotype", 
+# Weight change in percent ####
+ggboxplot(trial1_data_ex_c, x = "ecotype", xlab = "Environment", y = "ww_perc", 
+          ylab = "Weight change [%]", color = "ecotype", add = "jitter", 
+          shape = "ecotype", 
           title = "Grazed") + theme(legend.position = "none")
 
-ggboxplot(trial1_data_c, x = "ecotype", y = "ww_dif",
-          color = "ecotype", palette =c("#00AFBB", "#E7B800"),
-          add = "jitter", shape = "ecotype", title = "Baseline") + theme(
+ggboxplot(trial1_data_c, x = "ecotype", xlab = "Environment", y = "ww_perc", 
+          ylab = "Weight change [%]", color = "ecotype", add = "jitter", 
+          shape = "ecotype", 
+          title = "Baseline") + theme(
             legend.position = "none")
 
-ggboxplot(trial1_data, x = "ecotype", y = "ww_dif",
+ggboxplot(trial1_data, x = "ecotype", xlab = "Environment", y = "ww_perc", 
+          ylab = "Weight change [%]",
           color = "treatment", add = "jitter", shape = "treatment", 
-          title = "Both treatments")
+          title = "Both treatments") + theme(legend.title = element_blank())
 
 # Weight change in percent, corrected for growth ####
 ggboxplot(trial1_data_ex_c, x = "ecotype", xlab = "Environment", y = "growth_corr",
           ylab = "Weight change [%]",
-          color = "ecotype", palette =c("#00AFBB", "#E7B800"),
-          add = "jitter", shape = "ecotype", title = "Grazed") + theme(
+          color = "ecotype", add = "jitter", shape = "ecotype", 
+          title = "Grazed") + theme(
             legend.position = "none")
 
 
@@ -42,17 +44,23 @@ ggboxplot(trial1_data_ex_c, x = "ecotype", xlab = "Environment", y = "growth_cor
 # Plot STA ####
 ggplot(trial1_data_ex_c, aes(STA, growth_corr)) +
   geom_point() +
-  stat_smooth(method = lm)
+  stat_smooth(method = lm) +
+  xlab("STA") +
+  ylab("Wetweight change [%]")
 
 # Plot SAP ####
 ggplot(trial1_data_ex_c, aes(SAP, growth_corr)) +
   geom_point() +
-  stat_smooth(method = lm)
+  stat_smooth(method = lm) +
+  xlab("SAP") +
+  ylab("Wetweight change [%]")
 
 # Plot TDMC ####
 ggplot(trial1_data_ex_c, aes(TDMC, growth_corr)) +
   geom_point() +
-  stat_smooth(method = lm)
+  stat_smooth(method = lm) +
+  xlab("TDMC") +
+  ylab("Wetweight change [%]")
 
 
 ###################### ANOVA, corrected for growth #############################
