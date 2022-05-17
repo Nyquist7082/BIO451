@@ -95,3 +95,50 @@ ttest.TDMC <- preference_data %>%
   t_test(TDMC ~ ecotype, paired = TRUE) %>%
   add_significance()
 ttest.TDMC
+
+#plots STA_diff vs ww_diff####
+
+ggplot(data = preference_jar, 
+                        aes(x = STA_diff,
+                            y = ww_diff)) + 
+  geom_smooth(method=lm) + 
+  geom_point(size = 2) +
+  theme_classic()
+
+#plots SAP_diff vs ww_diff####
+
+ggplot(data = preference_jar, 
+       aes(x = SAP_diff,
+           y = ww_diff)) + 
+  geom_smooth(method=lm) + 
+  geom_point(size = 2) +
+  theme_classic()
+
+#plots TDMC_diff vs ww_diff####
+
+ggplot(data = preference_jar, 
+       aes(x = TDMC_diff,
+           y = ww_diff)) + 
+  geom_smooth(method=lm) + 
+  geom_point(size = 2) +
+  theme_classic()
+
+#STA_diff ttest
+
+ttest.STA <- preference_jar %>% 
+  t_test(STA_diff ~ ww_diff, paired = TRUE) %>%
+  add_significance()
+
+#SAP_diff ttest
+
+ttest.SAP <- preference_jar %>% 
+  t_test(SAP_diff ~ ww_diff, paired = TRUE) %>%
+  add_significance()
+ttest.SAP
+
+#TDMC_diff ttest
+
+ttest.TDMC <- preference_jar %>% 
+  t_test(TDMC_diff ~ ww_diff, paired = TRUE) %>%
+  add_significance()
+ttest.TDMC
