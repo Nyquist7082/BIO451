@@ -72,6 +72,9 @@ ggplot(trial1_data_ex_c, aes(TDMC, growth_corr)) +
 anova_growth <- aov(growth_corr ~ trial1_data_ex_c$ecotype, dat=trial1_data_ex_c)
 summary(anova_growth)
 
+anova_perc <- aov(ww_perc ~ trial1_data_ex_c$ecotype, dat=trial1_data_ex_c)
+summary(anova_perc)
+
 
 ###################### PHL #############################
 p_PHL <- ggboxplot(trial1_data, x = "ecotype", y = "PHL",
