@@ -53,3 +53,7 @@ combined_data <- read_sheet("https://docs.google.com/spreadsheets/d/1B8JgUlGrqr5
 
 # Add column: wetweight change in % ####
 combined_data$ww_perc <- (combined_data$`ww_after`- combined_data$`ww_before`)/(combined_data$`ww_before`)*100
+
+#Filter exposed and sheltered####
+combined_data_exposed <- combined_data %>% filter(ecotype=="exposed")
+combined_data_sheltered <- combined_data %>% filter(ecotype=="sheltered")
