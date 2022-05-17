@@ -17,12 +17,12 @@ trial1_data$ww_perc <- (trial1_data$`ww_after`- trial1_data$`ww_before`)/(trial1
 
 #Calculations of dif. in PHL####
 trial1_data_wider <- trial1_data %>% pivot_wider(names_from = "treatment", values_from = "PHL")
-view(trial1_data_wider)
+#view(trial1_data_wider)
 
 select_1 <- trial1_data_wider %>% select(grazed,ecotype, sample_ID)
-select_1_removeNA <- na.omit(try1)
+select_1_removeNA <- na.omit(select_1)
 select_2 <- trial1_data_wider %>% select(not_grazed,ecotype,sample_ID)
-select_2_removeNA <- na.omit(try2)
+select_2_removeNA <- na.omit(select_2)
 joined <- full_join(select_1_removeNA, select_2_removeNA)
 joined$PHLdiff <- joined$grazed-joined$not_grazed
 #Just run it once!
