@@ -18,25 +18,29 @@ library(rstatix)       # Pipe-friendly R functions for easy statistical analyses
 ggboxplot(trial1_data_ex_c, x = "ecotype", xlab = "Environment", y = "ww_perc", 
           ylab = "Weight change [%]", color = "ecotype", add = "jitter", 
           shape = "ecotype", 
-          title = "Grazed") + theme(legend.position = "none")
+          title = "Grazed") + theme(legend.position = "none") + 
+  scale_x_discrete(labels=c("Exposed", "Sheltered"))
 
 ggboxplot(trial1_data_c, x = "ecotype", xlab = "Environment", y = "ww_perc", 
           ylab = "Weight change [%]", color = "ecotype", add = "jitter", 
           shape = "ecotype", 
           title = "Baseline") + theme(
-            legend.position = "none")
+            legend.position = "none") + 
+  scale_x_discrete(labels=c("Exposed", "Sheltered"))
 
 ggboxplot(trial1_data, x = "ecotype", xlab = "Environment", y = "ww_perc", 
           ylab = "Weight change [%]",
           color = "treatment", add = "jitter", shape = "treatment", 
-          title = "Both treatments") + theme(legend.title = element_blank())
+          title = "Both treatments") + theme(legend.title = element_blank()) +
+  scale_x_discrete(labels=c("Exposed", "Sheltered"))
 
 # Weight change in percent, corrected for growth ####
 ggboxplot(trial1_data_ex_c, x = "ecotype", xlab = "Environment", y = "growth_corr",
           ylab = "Weight change [%]",
           color = "ecotype", add = "jitter", shape = "ecotype", 
           title = "Grazed") + theme(
-            legend.position = "none")
+            legend.position = "none") + 
+  scale_x_discrete(labels=c("Exposed", "Sheltered"))
 
 
 ##################### Regression traits vs grazing, corrected for growth #######
@@ -72,11 +76,12 @@ summary(anova_growth)
 ###################### PHL #############################
 p_PHL <- ggboxplot(trial1_data, x = "ecotype", y = "PHL",
           color = "treatment",
-          add = "jitter", shape = "treatment",width= 0.15,
+          add = "jitter", shape = "treatment",width= 0.2,
           title = "Phlorotannins levels grazed vs control",
           xlab = "Environment",
           ylab = "Phlorotannins")+
-  theme_classic()
+  theme_classic() + 
+  scale_x_discrete(labels=c("Exposed", "Sheltered"))
   
 p_PHL+ theme(legend.title = element_blank())
 
@@ -85,7 +90,7 @@ trial1_data %>%
   add_significance()
 
 
-#PHL Before grazing,baseline ####
+# PHL Before grazing,baseline ####
 ggplot(data = trial1_data_c, 
        mapping = aes(x = ecotype, y = PHL)) +
   geom_point() +
@@ -108,7 +113,7 @@ trial1_data_c %>%
   t_test(PHL~ ecotype) %>%
   add_significance()
 
-#PHL After grazing ,grazed induced maximum ####
+# PHL After grazing ,grazed induced maximum ####
 
 p_PHL_after <- ggboxplot(trial1_data_ex_c, x = "ecotype", y = "PHL",
                           color = "ecotype",
@@ -126,7 +131,7 @@ trial1_data_ex_c %>%
   t_test(PHL~ ecotype) %>%
   add_significance()
 
-#Difference in PHL start and induction####
+# Difference in PHL start and induction####
 
 p_PHL_diff <- ggboxplot(joined, x = "ecotype", y = "PHLdiff",
                          color = "ecotype",
