@@ -38,6 +38,11 @@ correct_growth$growth_corr <- correct_growth$not_grazed- correct_growth$grazed
 trial1_data <- left_join(trial1_data, correct_growth, by = "sample_ID")
 trial1_data$growth_corr[trial1_data$treatment =="not_grazed"]=NA
 
+# grazed and baseline separation ####  
+
+trial1_data_ex_c <-trial1_data[trial1_data$treatment == 'grazed', ]   #Gazed, without baseline
+trial1_data_c <-trial1_data[trial1_data$treatment == 'not_grazed', ]  #Baseline
+
 
 ###################### Trial 2: preference #####################################
 
