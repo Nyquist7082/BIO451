@@ -129,7 +129,7 @@ pca_data_pref <- prcomp(~ TDMC + SAP  + STA ,  data = preference_data,
 
 summary(pca_data_pref)
 eigenval_data_pref <- pca_data_pref$sdev^2
-eigenval_data_pref/sum(eigenval_data)
+eigenval_data_pref/sum(eigenval_data_pref)
 
 vars_data_pref <- pca_data_pref$sdev^2
 barplot(vars_data_pref/
@@ -153,10 +153,12 @@ ggplot(data = pca_data_scores_pref,
 
 p_pca_pref <-autoplot(pca_data_pref, data = pca_data_scores_pref, colour = 'ecotype',
                  loadings = TRUE, loadings.colour = 'blue',
-                 loadings.label = TRUE, loadings.label.size = 3)
-p_pca_pref+ theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+                 loadings.label = TRUE, loadings.label.size = 3, main="PCA preference experiment")
+p_pca_pref<- p_pca_pref+ theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
              panel.background = element_blank(), axis.line = element_line(colour = "black",),legend.title = element_blank())
+p_pca_pref
 
+ggsave("PCApref.png")
 #Boxplot and statistical test for traits####
 
 #TDMC####
