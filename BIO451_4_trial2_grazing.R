@@ -45,6 +45,9 @@ p_ww_perc_sap <- ggplot(data = preference_data,
   geom_smooth(method=lm) + 
   geom_point(size = 2) +
   theme_classic()
+ggsave(filename = "fig_1.png",  
+       plot = p_ww_perc_sap, width = 7, height = 7, units = "cm", 
+       dpi = 450) 
 p_ww_perc_sap + theme(legend.title = element_blank())
 
 #plots ww_perc vs TDMC####
@@ -116,12 +119,16 @@ ggplot(data = preference_jar,
 
 #plots TDMC_diff vs ww_diff####
 
-ggplot(data = preference_jar, 
+p1 <- ggplot(data = preference_jar, 
        aes(x = TDMC_diff,
            y = ww_diff)) + 
   geom_smooth(method=lm) + 
   geom_point(size = 2) +
   theme_classic()
+
+ggsave(filename = "TDMC_diffa.png",  
+       plot = p1, width = 7, height = 7, units = "cm", 
+       dpi = 450) 
 
 #STA_diff ttest
 
