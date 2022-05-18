@@ -56,9 +56,25 @@ combined_data_exposed %>%
   wilcox_test(ww_perc~ experiment) %>%
   add_significance()
 
+#Plot combined####
+
+p_choise_comb <- ggboxplot(combined_data, x = "ecotype", y = "ww_perc",
+                           color = "experiment",
+                           add = "jitter", shape = "experiment", width= 0.15, title = "Choice/no choice for sheltered and exposed")+
+  xlab("Environment")+
+  ylab("Wet weight change [%]")+
+  theme(legend.title = element_blank())
+
+p_choise_comb
+ggsave("test.png")
+
+
+jpeg("p_choise_comb.jpeg", quality=100)
+plot(p_choise_comb)
+dev.off()
 
 # grazing  TDMC choice no_choice####
-ggplot(data = combined_data, 
+TDCM_choice <- ggplot(data = combined_data, 
        aes(x = TDMC,
            y = ww_perc,
            colour=experiment)) + 
@@ -66,26 +82,10 @@ ggplot(data = combined_data,
   geom_point(size = 2) +
   theme_classic()+
   ylab("Wet wight change [%]")+
-  ggtitle("TDMC vs Grazing for choice/ no choice")
+  ggtitle("TDMC - Wet weight change [%]")
 
-#Plot combined####
-
-p_choise_comb <- ggboxplot(combined_data, x = "ecotype", y = "ww_perc",
-          color = "experiment",
-          add = "jitter", shape = "experiment", width= 0.15, title = "Choice/no choice for sheltered and exposed")+
-  xlab("Environment")+
-  ylab("Wet weight change [%]")+
-  theme(legend.title = element_blank())
-  
-p_choise_comb
-
-p <-
-  ggplot(mtcars, aes(mpg, wt)) +
-  geom_point()
-png("mtcars.png")
-print(p)
-dev.off()
-
+TDCM_choice
+ggsave("TDMC_choice.png")
 # grazing  SAP choice no_choice####
 ggplot(data = combined_data, 
        aes(x = SAP,
@@ -113,7 +113,20 @@ ggplot(data = combined_data,
   ylab("Wet wight change [%]")+
   ggtitle("STA vs Grazing for choice/ no choice")
 
-
-
-
+p2 <- ggplot(data = combined_data, 
+             aes(x = TDMC,
+                 y = ww_perc,
+                 colour=experiment)) + 
+  geom_smooth(method=lm,  se=F, size=0.😎 +  
+                geom_point(size = 0.5) +
+                theme_classic()+
+                ggtitle("TDMC - Wet weight change [%]") +
+                ylab("Wet weight change [%]") +
+                theme(legend.title = element_blank()) +
+                theme(plot.title = element_text(size=12)) +
+                theme(plot.title = element_text(hjust = 0.5))
+              
+              ggsave(filename = "TDMC_chnch.png",  
+                     plot = p2, width = 12, height = 7, units = "cm", 
+                     dpi = 800)
 
