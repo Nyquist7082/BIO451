@@ -113,13 +113,13 @@ adonis2(cbind(trial1_data$STA, trial1_data$SAP, trial1_data$TDMC, trial1_data$PH
                            method="euclidian")
 
 
-
+names(trial1_data)
 #Testing if there is significant difference in traits depending on % of wet weight change
-adonis2(cbind(trial1_data$STA, trial1_data$SAP, trial1_data$TDMC, trial1_data$PHL) ~ trial1_data$ww_perc,
+adonis2(cbind(trial1_data_c$STA, trial1_data_c$SAP, trial1_data_c$TDMC, trial1_data_c$PHL) ~ trial1_data_c$growth_corr,
                             permutations = 9999,
                             method="euclidian")
 
-#Trial 2####
+#############################################Trial 2#####################################
 #PCA####
 prcomp(~ TDMC + SAP  + STA , data = preference_data,
        scale = TRUE)
@@ -218,3 +218,66 @@ adonis2(cbind(preference_data$STA, preference_data$SAP, preference_data$TDMC) ~ 
 adonis2(cbind(preference_data$STA, preference_data$SAP, preference_data$TDMC) ~ preference_data$ww_perc,
         permutations = 9999,
         method="euclidian")
+
+#Combined####
+#TDMC####
+p_tdmc_comb <- ggboxplot(combined_data, x = "ecotype", y = "TDMC",
+                         color = "ecotype",
+                         add = "jitter", shape = "ecotype", width= 0.15)+
+  theme_classic()+
+  xlab("Environment")
+p_tdmc_comb + theme(legend.title = element_blank())
+
+
+combined_data %>% 
+  t_test(TDMC~ ecotype) %>%
+  add_significance()
+
+#STA####
+p_sta_comb<- ggboxplot(combined_data, x = "ecotype", y = "STA",
+                       color = "ecotype",
+                       add = "jitter", shape = "ecotype", width= 0.15)+
+  theme_classic()+
+  xlab("Environment")
+p_sta_comb + theme(legend.title = element_blank())
+
+
+
+combined_data %>% 
+  t_test(STA~ ecotype) %>%
+  add_significance()
+
+
+#SAP####
+p_sap_comb<- ggboxplot(combined_data, x = "ecotype", y = "SAP",
+                       color = "ecotype",
+                       add = "jitter", shape = "ecotype", width= 0.15)+
+  theme_classic()+
+  xlab("Environment")
+p_sap_comb + theme(legend.title = element_blank())
+
+
+combined_data %>% 
+  t_test(SAP~ ecotype) %>%
+  add_significance()
+
+
+combined_data %>% 
+  wilcox_test(SAP~ ecotype) %>%
+  add_significance()
+
+# PERMANOVA (non parametric)####
+# Testing if there is significant difference in traits depending on ecotype (sheltered vs exposed)
+adonis2(cbind(combined_data$STA, combined_data$SAP, combined_data$TDMC) ~ combined_data$ecotype,
+        permutations = 9999,
+        method="euclidian")
+
+#Testing if there is significant difference in traits depending on % of wet weight change
+adonis2(cbind(combined_data$STA, combined_data$SAP, combined_data$TDMC) ~ combined_data$ww_perc,
+        permutations = 9999,
+        method="euclidian")
+
+
+
+
+
