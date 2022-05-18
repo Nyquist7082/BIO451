@@ -57,9 +57,13 @@ p_ww_perc_tdmc <- ggplot(data = preference_data,
                              y = ww_perc,
                              colour=ecotype)) + 
   geom_smooth(method=lm) + 
-  geom_point(size = 2) +
+  geom_point(size = 0.8) +
   theme_classic()
 p_ww_perc_tdmc + theme(legend.title = element_blank())
+
+ggsave(filename = "TDMC_wwperc.png",  
+       plot = p_ww_perc_tdmc, width = 10, height = 6.6, units = "cm", 
+       dpi = 800) 
 
 # PERMANOVA (non parametric)####
 
@@ -123,12 +127,12 @@ p1 <- ggplot(data = preference_jar,
        aes(x = TDMC_diff,
            y = ww_diff)) + 
   geom_smooth(method=lm) + 
-  geom_point(size = 2) +
+  geom_point(size = 0.8) +
   theme_classic()
 
 ggsave(filename = "TDMC_diffa.png",  
-       plot = p1, width = 7, height = 7, units = "cm", 
-       dpi = 450) 
+       plot = p1, width = 10, height = 6.6, units = "cm", 
+       dpi = 800) 
 
 #STA_diff ttest
 
