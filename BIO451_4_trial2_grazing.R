@@ -68,7 +68,8 @@ ggsave(filename = "TDMC_wwperc.png",
 # PERMANOVA (non parametric)####
 
 preference.permanova <- adonis2(cbind(scale(preference_data$STA), scale(preference_data$SAP), 
-                                      scale(preference_data$TDMC)) ~ preference_data$ww_perc,
+                                      scale(preference_data$TDMC)
+) ~ preference_data$ww_perc,
 permutations = 9999,
 method="euclidian")
 
@@ -84,24 +85,26 @@ ttest.ww_perc
 #STA ttest####
 
 ttest.STA <- preference_data %>% 
-  t_test(STA ~ ww_perc, paired = TRUE) %>%
+  t_test(STA ~ ecotype, paired = TRUE) %>%
   add_significance()
 ttest.STA
-view(preference_data)
+
 #SAP ttest####
 
 ttest.SAP <- preference_data %>% 
-  t_test(SAP ~ ww_perc, paired = TRUE) %>%
+  t_test(SAP ~ ecotype, paired = TRUE) %>%
   add_significance()
 ttest.SAP
 
 #TDMC ttest####
 
 ttest.TDMC <- preference_data %>% 
-  t_test(TDMC ~ ww_perc, paired = TRUE) %>%
+  t_test(TDMC ~ ecotype, paired = TRUE) %>%
   add_significance()
 ttest.TDMC
 
+<<<<<<< HEAD
+=======
 #
 #plots STA_diff vs ww_diff####
 
@@ -153,3 +156,4 @@ ttest.TDMC <- preference_jar %>%
   t_test(TDMC_diff ~ ww_diff, paired = TRUE) %>%
   add_significance()
 ttest.TDMC
+>>>>>>> 17c5fa5f085626083e97f4d3e835118777e85b2f
