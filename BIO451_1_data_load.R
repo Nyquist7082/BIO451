@@ -73,3 +73,4 @@ combined_data$ww_perc <- (combined_data$`ww_after`- combined_data$`ww_before`)/(
 # Filter exposed and sheltered####
 combined_data_exposed <- combined_data %>% filter(ecotype=="exposed")
 combined_data_sheltered <- combined_data %>% filter(ecotype=="sheltered")
+
