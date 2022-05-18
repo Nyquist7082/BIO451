@@ -61,7 +61,8 @@ p_ww_perc_tdmc + theme(legend.title = element_blank())
 # PERMANOVA (non parametric)####
 
 preference.permanova <- adonis2(cbind(scale(preference_data$STA), scale(preference_data$SAP), 
-                                      scale(preference_data$TDMC)) ~ preference_data$ww_perc,
+                                      scale(preference_data$TDMC)
+) ~ preference_data$ww_perc,
 permutations = 9999,
 method="euclidian")
 
@@ -77,68 +78,21 @@ ttest.ww_perc
 #STA ttest####
 
 ttest.STA <- preference_data %>% 
-  t_test(STA ~ ww_perc, paired = TRUE) %>%
+  t_test(STA ~ ecotype, paired = TRUE) %>%
   add_significance()
 ttest.STA
-view(preference_data)
+
 #SAP ttest####
 
 ttest.SAP <- preference_data %>% 
-  t_test(SAP ~ ww_perc, paired = TRUE) %>%
+  t_test(SAP ~ ecotype, paired = TRUE) %>%
   add_significance()
 ttest.SAP
 
 #TDMC ttest####
 
 ttest.TDMC <- preference_data %>% 
-  t_test(TDMC ~ ww_perc, paired = TRUE) %>%
+  t_test(TDMC ~ ecotype, paired = TRUE) %>%
   add_significance()
 ttest.TDMC
 
-#
-#plots STA_diff vs ww_diff####
-
-ggplot(data = preference_jar, 
-                        aes(x = STA_diff,
-                            y = ww_diff)) + 
-  geom_smooth(method=lm) + 
-  geom_point(size = 2) +
-  theme_classic()
-
-#plots SAP_diff vs ww_diff####
-
-ggplot(data = preference_jar, 
-       aes(x = SAP_diff,
-           y = ww_diff)) + 
-  geom_smooth(method=lm) + 
-  geom_point(size = 2) +
-  theme_classic()
-
-#plots TDMC_diff vs ww_diff####
-
-ggplot(data = preference_jar, 
-       aes(x = TDMC_diff,
-           y = ww_diff)) + 
-  geom_smooth(method=lm) + 
-  geom_point(size = 2) +
-  theme_classic()
-
-#STA_diff ttest
-
-ttest.STA <- preference_jar %>% 
-  t_test(STA_diff ~ ww_diff, paired = TRUE) %>%
-  add_significance()
-ttest.STA
-#SAP_diff ttest
-
-ttest.SAP <- preference_jar %>% 
-  t_test(SAP_diff ~ ww_diff, paired = TRUE) %>%
-  add_significance()
-ttest.SAP
-
-#TDMC_diff ttest
-
-ttest.TDMC <- preference_jar %>% 
-  t_test(TDMC_diff ~ ww_diff, paired = TRUE) %>%
-  add_significance()
-ttest.TDMC
