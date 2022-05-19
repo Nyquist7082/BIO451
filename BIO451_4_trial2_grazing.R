@@ -63,6 +63,10 @@ p_ww_perc_tdmc <- ggplot(data = preference_data,
 p_ww_perc_tdmc<- p_ww_perc_tdmc + theme(legend.title = element_blank())
 
 p_ww_perc_tdmc
+
+model <- lm(preference_data$TDMC ~preference_data$ww_perc)
+summary(model)
+
 ggsave("TDMCsheltered_exposed.png")
 ggsave(filename = "TDMC_wwperc.png",  
        plot = p_ww_perc_tdmc, width = 10, height = 6.6, units = "cm", 
