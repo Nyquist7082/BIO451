@@ -152,7 +152,7 @@ ggplot(data = pca_data_scores_pref,
   theme_classic()
 
 p_pca_pref <-autoplot(pca_data_pref, data = pca_data_scores_pref, colour = 'ecotype',
-                 loadings = TRUE, loadings.colour = 'blue',
+                 loadings = TRUE, loadings.colour = 'blue',size=3, 
                  loadings.label = TRUE, loadings.label.size = 3, main="PCA preference experiment")
 p_pca_pref<- p_pca_pref+ theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
              panel.background = element_blank(), axis.line = element_line(colour = "black",),legend.title = element_blank())
