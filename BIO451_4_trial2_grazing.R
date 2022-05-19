@@ -57,10 +57,13 @@ p_ww_perc_tdmc <- ggplot(data = preference_data,
                              y = ww_perc,
                              colour=ecotype)) + 
   geom_smooth(method=lm) + 
-  geom_point(size = 0.8) +
+  geom_point(size = 2) +
   theme_classic()
-p_ww_perc_tdmc + theme(legend.title = element_blank())
 
+p_ww_perc_tdmc<- p_ww_perc_tdmc + theme(legend.title = element_blank())
+
+p_ww_perc_tdmc
+ggsave("TDMCsheltered_exposed.png")
 ggsave(filename = "TDMC_wwperc.png",  
        plot = p_ww_perc_tdmc, width = 10, height = 6.6, units = "cm", 
        dpi = 800) 
@@ -103,9 +106,6 @@ ttest.TDMC <- preference_data %>%
   add_significance()
 ttest.TDMC
 
-<<<<<<< HEAD
-=======
-#
 #plots STA_diff vs ww_diff####
 
 ggplot(data = preference_jar, 
@@ -130,9 +130,13 @@ p1 <- ggplot(data = preference_jar,
        aes(x = TDMC_diff,
            y = ww_diff)) + 
   geom_smooth(method=lm) + 
-  geom_point(size = 0.8) +
+  geom_point(size = 2) +
   theme_classic()
-
+p1
+ggsave("DeltaTDMC_deltegrazing.png")
+#permutation test####
+model1 <- lm(preference_jar$ww_diff ~preference_jar$TDMC_diff)
+summary(model1)
 ggsave(filename = "TDMC_diffa.png",  
        plot = p1, width = 10, height = 6.6, units = "cm", 
        dpi = 800) 
@@ -156,4 +160,4 @@ ttest.TDMC <- preference_jar %>%
   t_test(TDMC_diff ~ ww_diff, paired = TRUE) %>%
   add_significance()
 ttest.TDMC
->>>>>>> 17c5fa5f085626083e97f4d3e835118777e85b2f
+
