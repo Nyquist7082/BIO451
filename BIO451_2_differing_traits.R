@@ -115,7 +115,7 @@ adonis2(cbind(trial1_data$STA, trial1_data$SAP, trial1_data$TDMC, trial1_data$PH
 
 names(trial1_data)
 #Testing if there is significant difference in traits depending on % of wet weight change
-adonis2(cbind(trial1_data_c$STA, trial1_data_c$SAP, trial1_data_c$TDMC, trial1_data_c$PHL) ~ trial1_data_c$growth_corr,
+adonis2(cbind(trial1_data_ex_c$STA, trial1_data_ex_c$SAP, trial1_data_ex_c$TDMC, trial1_data_ex_c$PHL) ~ trial1_data_ex_c$growth_corr,
                             permutations = 9999,
                             method="euclidian")
 
