@@ -60,10 +60,12 @@ combined_data_exposed %>%
 
 p_choise_comb <- ggboxplot(combined_data, x = "ecotype", y = "ww_perc",
                            color = "experiment",
-                           add = "jitter", shape = "experiment", width= 0.15, title = "Choice/no choice for sheltered and exposed")+
+                           add = "jitter", shape = "experiment", width= 0.15, title = "Choice/no choice for sheltered and exposed", 
+                           palette = c("violet","#00cc00"))+
   xlab("Environment")+
   ylab("Wet weight change [%]")+
   theme(legend.title = element_blank())
+
 
 p_choise_comb
 ggsave("test.png")
