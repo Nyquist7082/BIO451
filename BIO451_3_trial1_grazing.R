@@ -28,11 +28,16 @@ ggboxplot(trial1_data_c, x = "ecotype", xlab = "Environment", y = "ww_perc",
             legend.position = "none") + 
   scale_x_discrete(labels=c("Exposed", "Sheltered"))
 
-ggboxplot(trial1_data, x = "ecotype", xlab = "Environment", y = "ww_perc", 
+p_both<- ggboxplot(trial1_data, x = "ecotype", xlab = "Environment", y = "ww_perc", 
           ylab = "Weight change [%]",
-          color = "treatment", add = "jitter", shape = "treatment", 
+          color = "treatment", add = "jitter", shape = "treatment", width= 0.15,
+          palette = c("#CCCC00","#0000FF"),
           title = "Both treatments") + theme(legend.title = element_blank()) +
   scale_x_discrete(labels=c("Exposed", "Sheltered"))
+p_both
+
+ggsave("COntrolTretment.png")
+
 
 # Weight change in percent, corrected for growth ####
 ggboxplot(trial1_data_ex_c, x = "ecotype", xlab = "Environment", y = "growth_corr",
@@ -80,14 +85,16 @@ summary(anova_perc)
 p_PHL <- ggboxplot(trial1_data, x = "ecotype", y = "PHL",
           color = "treatment",
           add = "jitter", shape = "treatment",width= 0.2,
-          title = "Phlorotannins levels grazed vs control",
+          title = "Phlorotannins levels grazed & control",
           xlab = "Environment",
-          ylab = "Phlorotannins")+
+          ylab = "Phlorotannins",
+          palette = c("#CCCC00","#0000FF"))+
   theme_classic() + 
-  scale_x_discrete(labels=c("Exposed", "Sheltered"))
+  scale_x_discrete(labels=c("Exposed", "Sheltered"))+ 
+  theme(legend.title = element_blank())
   
-p_PHL+ theme(legend.title = element_blank())
-
+p_PHL
+ggsave("PHLAll.png")
 trial1_data %>% 
   t_test(PHL~ treatment) %>%
   add_significance()
@@ -139,15 +146,16 @@ trial1_data_ex_c %>%
 p_PHL_diff <- ggboxplot(joined, x = "ecotype", y = "PHLdiff",
                          color = "ecotype",
                          add = "jitter", shape = "ecotype", 
-                        width= 0.15, title = "Induction of Phlorotannins",
+                        width= 0.15, title = "Phlorotannins",
                         ylab = "Phlorotannins",
                         xlab = "Environment")+
-  theme_classic()
+  theme_classic()+ 
+  theme(legend.title = element_blank())
   
   
 
-p_PHL_diff + theme(legend.title = element_blank())
-
+p_PHL_diff 
+ggsave("")
 joined%>% 
   t_test(PHLdiff~ecotype) %>% 
   add_significance()
