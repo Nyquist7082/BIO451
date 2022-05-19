@@ -33,9 +33,14 @@ p_ww_perc_sta <- ggplot(data = preference_data,
                             colour=ecotype)) + 
   geom_smooth(method=lm) + 
   geom_point(size = 2) +
-  theme_classic()
-p_ww_perc_sta + theme(legend.title = element_blank())
+  ggtitle("Reggresion wet wight change STA")+
+  ylab("Weight change [%]")+
+  theme_classic()+ theme(legend.title = element_blank())
+p_ww_perc_sta 
 
+ggsave("RegressionSTA.png")
+model11 <- lm(preference_data$STA ~preference_data$ww_perc)
+summary(model11)
 #plots ww_perc vs SAP ####
 
 p_ww_perc_sap <- ggplot(data = preference_data, 
@@ -44,11 +49,20 @@ p_ww_perc_sap <- ggplot(data = preference_data,
                             colour=ecotype)) + 
   geom_smooth(method=lm) + 
   geom_point(size = 2) +
-  theme_classic()
+  ggtitle("Reggresion wet wight change SAP")+
+  ylab("Weight change [%]")+
+  theme_classic()+ 
+  theme(legend.title = element_blank())
+
+p_ww_perc_sap
+ggsave("RegressionSAP.png")
+model12 <- lm(preference_data$SAP ~preference_data$ww_perc)
+summary(model12)
+
 ggsave(filename = "fig_1.png",  
        plot = p_ww_perc_sap, width = 7, height = 7, units = "cm", 
        dpi = 450) 
-p_ww_perc_sap + theme(legend.title = element_blank())
+ 
 
 #plots ww_perc vs TDMC####
 
@@ -57,12 +71,15 @@ p_ww_perc_tdmc <- ggplot(data = preference_data,
                              y = ww_perc,
                              colour=ecotype)) + 
   geom_smooth(method=lm) + 
+  ggtitle("Reggresion wet wight change TDMC")+
+  ylab("Weight change [%]")+
   geom_point(size = 2) +
-  theme_classic()
+  theme_classic()+
+  theme(legend.title = element_blank())
 
-p_ww_perc_tdmc<- p_ww_perc_tdmc + theme(legend.title = element_blank())
+p_ww_perc_tdmc 
 
-p_ww_perc_tdmc
+ggsave("RgressionTDMC.png")
 
 model <- lm(preference_data$TDMC ~preference_data$ww_perc)
 summary(model)
@@ -121,23 +138,37 @@ ggplot(data = preference_jar,
 
 #plots SAP_diff vs ww_diff####
 
-ggplot(data = preference_jar, 
+p2 <- ggplot(data = preference_jar, 
        aes(x = SAP_diff,
            y = ww_diff)) + 
   geom_smooth(method=lm) + 
+  ggtitle("Regression Δ SAP")+
+  ylab("Wet weight difference within jar [%]")+
+  xlab("SAP difference within jar")+
   geom_point(size = 2) +
   theme_classic()
+p2
+ggsave("DeltaSAP_deltegrazing.png")
+
+model4 <- lm(preference_jar$SAP_diff ~preference_jar$ww_diff)
+summary(model4)
 
 #plots TDMC_diff vs ww_diff####
 
 p1 <- ggplot(data = preference_jar, 
        aes(x = TDMC_diff,
            y = ww_diff)) + 
-  geom_smooth(method=lm) + 
+  geom_smooth(method=lm) +
+  ggtitle("Regression Δ TDMC")+
+  ylab("Wet weight difference within jar [%]")+
+  xlab("TDMC difference within jar")+
   geom_point(size = 2) +
   theme_classic()
 p1
 ggsave("DeltaTDMC_deltegrazing.png")
+
+model5 <- lm(preference_jar$TDMC_diff ~preference_jar$ww_diff)
+summary(model5)
 #permutation test####
 model1 <- lm(preference_jar$ww_diff ~preference_jar$TDMC_diff)
 summary(model1)
