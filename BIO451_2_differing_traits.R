@@ -167,9 +167,11 @@ p_tdmc_pref <- ggboxplot(preference_data, x = "ecotype", y = "TDMC",
                     color = "ecotype",
                     add = "jitter", shape = "ecotype", width= 0.15)+
   theme_classic()+
-  xlab("Environment")
-p_tdmc_pref + theme(legend.title = element_blank())
+  xlab("Environment")+
+  theme(legend.title = element_blank())
 
+p_tdmc_pref  
+ggsave("TDMC.png")
 preference_data %>% 
   t_test( TDMC~ ecotype ) %>%
   add_significance()
@@ -180,9 +182,11 @@ p_sta_pref<- ggboxplot(preference_data, x = "ecotype", y = "STA",
                    color = "ecotype",
                    add = "jitter", shape = "ecotype", width= 0.15)+
   theme_classic()+
-  xlab("Environment")
-p_sta_pref + theme(legend.title = element_blank())
+  xlab("Environment")+ 
+  theme(legend.title = element_blank())
 
+p_sta_pref 
+ggsave("STA.png")
 
 
 preference_data %>% 
@@ -197,9 +201,10 @@ p_sap_pref<- ggboxplot(preference_data, x = "ecotype", y = "SAP",
                    color = "ecotype",
                    add = "jitter", shape = "ecotype", width= 0.15)+
   theme_classic()+
-  xlab("Environment")
-p_sap_pref + theme(legend.title = element_blank())
-
+  xlab("Environment")+ 
+  theme(legend.title = element_blank())
+p_sap_pref 
+ggsave("SAP.png")
 
 preference_data %>% 
   t_test(SAP~ ecotype) %>%
