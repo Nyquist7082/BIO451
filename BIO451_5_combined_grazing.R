@@ -81,15 +81,16 @@ TDCM_choice <- ggplot(data = combined_data,
            y = ww_perc,
            colour=experiment)) + 
   geom_smooth(method=lm) + 
+  palette =c("#00AFBB", "#E7B800")+
   geom_point(size = 2) +
-  theme_classic()+
   ylab("Wet wight change [%]")+
-  ggtitle("TDMC - Wet weight change [%]")
+  ggtitle("TDMC - Wet weight change [%] choice & no choice")
 
+TDCM_choice <-TDCM_choice+scale_color_manual(values=c("violet","#00cc00"))
 TDCM_choice
 ggsave("TDMC_choice.png")
 # grazing  SAP choice no_choice####
-ggplot(data = combined_data, 
+pSAPreg <-ggplot(data = combined_data, 
        aes(x = SAP,
            y = ww_perc,
            colour=experiment))+ 
@@ -97,7 +98,10 @@ ggplot(data = combined_data,
   geom_point(size = 2) +
   theme_classic()+
   ylab("Wet wight change [%]")+
-  ggtitle("SAP vs Grazing for choice/ no choice")
+  ggtitle("Grazing SAP for choice/ no choice")
+
+pSAPreg
+pSAPreg
 
 combined_data %>% 
   t_test(SAP~ experiment) %>%
@@ -115,20 +119,4 @@ ggplot(data = combined_data,
   ylab("Wet wight change [%]")+
   ggtitle("STA vs Grazing for choice/ no choice")
 
-p2 <- ggplot(data = combined_data, 
-             aes(x = TDMC,
-                 y = ww_perc,
-                 colour=experiment)) + 
-  geom_smooth(method=lm,  se=F, size=0.😎 +  
-                geom_point(size = 0.5) +
-                theme_classic()+
-                ggtitle("TDMC - Wet weight change [%]") +
-                ylab("Wet weight change [%]") +
-                theme(legend.title = element_blank()) +
-                theme(plot.title = element_text(size=12)) +
-                theme(plot.title = element_text(hjust = 0.5))
-              
-              ggsave(filename = "TDMC_chnch.png",  
-                     plot = p2, width = 12, height = 7, units = "cm", 
-                     dpi = 800)
 
